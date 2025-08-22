@@ -2,6 +2,7 @@ import { html } from "lit";
 import "../pages/home-page.js";
 import "../pages/employees-page.js";
 import "../pages/not-found-page.js";
+import "../pages/create-employee-page.js";
 
 export const routes = [
   {
@@ -11,6 +12,10 @@ export const routes = [
   {
     path: "/employees",
     render: () => html`<employees-page></employees-page>`,
+  },
+  {
+    path: "/employees/new",
+    render: () => html`<create-employee-page></create-employee-page>`,
   },
   {
     path: "*", // burası önemli
