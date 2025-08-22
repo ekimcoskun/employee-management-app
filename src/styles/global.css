@@ -1,10 +1,11 @@
 :root {
   --primary-color: #FF6200;
-  --header-color: #FFFFFF
-  --layout-color: #f2e5de;
-  --font-primary: #090D14
-  --font-primary-lighter: #6A6A6A
-  --font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  --primary-color-dark1:#b65113;
+  --header-color: #FFFFFF;
+  --layout-color: #F8F8F8;
+  --font-primary: #090D14;
+  --font-primary-lighter: #6A6A6A;
+  --font-family: 'Lato', sans-serif;
 }
 
 html, body {
