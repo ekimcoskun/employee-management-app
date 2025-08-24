@@ -3,9 +3,11 @@ import "../shared/Input/input.js";
 import "../shared/Button/button.js";
 import "../shared/Select/select.js";
 import "../shared/DatePicker/date-picker.js";
+import { toYYYYMMDD } from "../../utils/formatToYYYYMMDD.js";
 
 export class EmployeeForm extends LitElement {
   static properties = {
+    employee: { type: Object },
     firstName: { type: String },
     lastName: { type: String },
     employmentDate: { type: String },
@@ -16,8 +18,76 @@ export class EmployeeForm extends LitElement {
     position: { type: String },
   };
 
+  updated(changedProps) {
+    if (changedProps.has("employee")) {
+      if (this.employee) {
+        this.prefillFromEmployee(this.employee);
+      } else {
+        this.resetForm();
+      }
+    }
+  }
+
+  prefillFromEmployee(emp) {
+    this.id = emp.id ?? emp.id ?? undefined;
+    this.firstName = emp.firstName ?? "";
+    this.lastName = emp.lastName ?? "";
+    this.employmentDate = toYYYYMMDD(emp.employmentDate) ?? "";
+    this.dateOfBirth = toYYYYMMDD(emp.dateOfBirth) ?? "";
+    this.phoneNumber = emp.phoneNumber ?? "";
+    this.email = emp.email ?? "";
+    this.department = emp.department ?? "";
+    this.position = emp.position ?? "";
+  }
+
+  resetForm() {
+    this.id = undefined;
+    this.firstName = "";
+    this.lastName = "";
+    this.employmentDate = "";
+    this.dateOfBirth = "";
+    this.phoneNumber = "";
+    this.email = "";
+    this.department = "";
+    this.position = "";
+  }
+
+  handleInputChange(field, e) {
+    this[field] = e.detail.value;
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const employeeData = {
+      id: this.id,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      employmentDate: this.employmentDate,
+      dateOfBirth: this.dateOfBirth,
+      phoneNumber: this.phoneNumber,
+      email: this.email,
+      department: this.department,
+      position: this.position,
+    };
+
+    this.dispatchEvent(
+      new CustomEvent("employee-added", {
+        detail: employeeData,
+        bubbles: true,
+        composed: true,
+      })
+    );
+    this.resetForm();
+  }
+
+  handleCancel() {
+    this.resetForm();
+    this.dispatchEvent(new CustomEvent("cancel", { bubbles: true, composed: true }));
+  }
+
   constructor() {
     super();
+    this.employee = null;
     this.firstName = "";
     this.lastName = "";
     this.employmentDate = "";
@@ -158,9 +228,9 @@ export class EmployeeForm extends LitElement {
             label="Position"
             .value=${this.position}
             .options=${[
-              { value: "junior", label: "Junior" },
-              { value: "medior", label: "Medior" },
-              { value: "senior", label: "Senior" },
+              { value: "Junior", label: "Junior" },
+              { value: "Medior", label: "Medior" },
+              { value: "Senior", label: "Senior" },
             ]}
             @select-change=${(e) => this.handleInputChange("position", e)}
           ></app-select>

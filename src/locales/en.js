@@ -17,4 +17,5 @@ export default {
   proceed: "Proceed",
   employeeList: "Employee List",
   areYouSureToDelete: "Are you sure you want to delete this employee?",
+  actions: "Actions",
 };

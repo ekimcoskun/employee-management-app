@@ -17,4 +17,5 @@ export default {
   proceed: "Devam Et",
   employeeList: "Çalışan Listesi",
   areYouSureToDelete: "Bu çalışanı silmek istediğinizden emin misiniz?",
+  actions: "Eylemler",
 };
