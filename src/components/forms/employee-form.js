@@ -82,7 +82,7 @@ export class EmployeeForm extends LitElement {
   handleSubmit(e) {
     e.preventDefault();
     this.validateForm();
-    if (this.errors) {
+    if (Object.keys(this.errors).length > 0) {
       return;
     }
     const employeeData = {
@@ -96,7 +96,6 @@ export class EmployeeForm extends LitElement {
       department: this.department,
       position: this.position,
     };
-
     this.dispatchEvent(
       new CustomEvent("save", {
         detail: employeeData,
@@ -161,7 +160,6 @@ export class EmployeeForm extends LitElement {
     if (!this.email.trim()) errors.email = `${msg("email")} ${msg("isRequired")}`;
     if (!this.phoneNumber.trim()) errors.phoneNumber = `${msg("phoneNumber")} ${msg("isRequired")}`;
     if (!this.department.trim()) errors.department = `${msg("department")} ${msg("isRequired")}`;
-    if (!this.position.trim()) errors.position = `${msg("position")} ${msg("isRequired")}`;
 
     this.errors = errors;
   }
