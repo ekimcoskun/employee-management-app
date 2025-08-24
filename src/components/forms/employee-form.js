@@ -4,6 +4,8 @@ import "../shared/Button/button.js";
 import "../shared/Select/select.js";
 import "../shared/DatePicker/date-picker.js";
 import { toYYYYMMDD } from "../../utils/formatToYYYYMMDD.js";
+import { store } from "../../store/store.js";
+import { msg } from "../../store/slices/languageSlice.js";
 
 export class EmployeeForm extends LitElement {
   static properties = {
@@ -17,6 +19,24 @@ export class EmployeeForm extends LitElement {
     department: { type: String },
     position: { type: String },
   };
+
+  constructor() {
+    super();
+    this.employee = null;
+    this.firstName = "";
+    this.lastName = "";
+    this.employmentDate = "";
+    this.dateOfBirth = "";
+    this.phoneNumber = "";
+    this.email = "";
+    this.department = "";
+    this.position = "";
+
+    store.subscribe(() => {
+      this.locale = store.getState().language.locale;
+      this.requestUpdate();
+    });
+  }
 
   updated(changedProps) {
     if (changedProps.has("employee")) {
@@ -83,19 +103,6 @@ export class EmployeeForm extends LitElement {
   handleCancel() {
     this.resetForm();
     this.dispatchEvent(new CustomEvent("cancel", { bubbles: true, composed: true }));
-  }
-
-  constructor() {
-    super();
-    this.employee = null;
-    this.firstName = "";
-    this.lastName = "";
-    this.employmentDate = "";
-    this.dateOfBirth = "";
-    this.phoneNumber = "";
-    this.email = "";
-    this.department = "";
-    this.position = "";
   }
 
   static styles = css`
@@ -184,48 +191,48 @@ export class EmployeeForm extends LitElement {
       <form @submit=${this.handleSubmit}>
         <div class="form-fields">
           <app-input
-            label="First Name"
+            label="${msg("firstName")}"
             .value=${this.firstName}
             @input-change=${(e) => this.handleInputChange("firstName", e)}
           ></app-input>
 
           <app-input
-            label="Last Name"
+            label="${msg("lastName")}"
             .value=${this.lastName}
             @input-change=${(e) => this.handleInputChange("lastName", e)}
           ></app-input>
           <app-datepicker
-            label="Date Of Employment"
+            label="${msg("dateOfEmployment")}"
             name="employmentDate"
             .value=${this.employmentDate}
             @date-change=${(e) => this.handleInputChange("employmentDate", e)}
           ></app-datepicker>
           <app-datepicker
-            label="Date Of Birth"
+            label="${msg("dateOfBirth")}"
             name="dateOfBirth"
             .value=${this.dateOfBirth}
             @date-change=${(e) => this.handleInputChange("dateOfBirth", e)}
           ></app-datepicker>
           <app-input
-            label="Email"
+            label="${msg("email")}"
             .value=${this.email}
             type="email"
             @input-change=${(e) => this.handleInputChange("email", e)}
           ></app-input>
           <app-input
-            label="Phone Number"
+            label="${msg("phoneNumber")}"
             .value=${this.phoneNumber}
             type="tel"
             @input-change=${(e) => this.handleInputChange("phoneNumber", e)}
           ></app-input>
           <app-input
-            label="Department"
+            label="${msg("department")}"
             .value=${this.department}
             @input-change=${(e) => this.handleInputChange("department", e)}
           ></app-input>
 
           <app-select
-            label="Position"
+            label="${msg("position")}"
             .value=${this.position}
             .options=${[
               { value: "Junior", label: "Junior" },
@@ -237,9 +244,9 @@ export class EmployeeForm extends LitElement {
         </div>
 
         <div class="btn-group">
-          <app-button type="submit" variant="primary">Save</app-button>
+          <app-button type="submit" variant="primary">${msg("save")}</app-button>
           <app-button type="button" variant="secondary" @btn-click=${this.handleCancel}
-            >Cancel</app-button
+            >${msg("cancel")}</app-button
           >
         </div>
       </form>
