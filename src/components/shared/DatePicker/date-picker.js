@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit";
-import datePickerIcon from "../../../icons/calendar.svg";
+import datePickerIcon from "../../../assets/icons/calendar.svg";
 
 export class Datepicker extends LitElement {
   static properties = {

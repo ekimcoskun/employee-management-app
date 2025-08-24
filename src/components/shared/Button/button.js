@@ -40,6 +40,13 @@ export class Button extends LitElement {
       background: #6865c4ff;
       color: #fff;
     }
+    button.third {
+      background: #615fa2;
+      color: #fff;
+    }
+    button.third:hover:not([disabled]) {
+      background: #37356bff;
+    }
   `;
 
   constructor() {
