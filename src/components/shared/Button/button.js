@@ -62,10 +62,11 @@ export class Button extends LitElement {
         class=${this.variant}
         type=${this.type}
         ?disabled=${this.disabled}
-        @click=${(e) =>
+        @click=${(e) => {
           this.dispatchEvent(
             new CustomEvent("btn-click", { detail: e, bubbles: true, composed: true })
-          )}
+          );
+        }}
       >
         <slot></slot>
       </button>

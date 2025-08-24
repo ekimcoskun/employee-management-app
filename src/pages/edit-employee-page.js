@@ -69,13 +69,21 @@ export class EditEmployeePage extends LitElement {
     store.dispatch(getEmployeeById(lookupId));
   }
 
+  handleCancel() {
+    window.location.href = "/employees";
+  }
+
   render() {
     return html`
       <div class="page-wrapper">
         <h2>${msg("editEmployee")}</h2>
         <div class="form-container">
           ${this.employee
-            ? html`<employee-form .employee=${this.employee}></employee-form>`
+            ? html`<employee-form
+                .employee=${this.employee}
+                @cancel=${this.handleCancel}
+                @save=${this.handleSave}
+              ></employee-form>`
             : html`<p>${msg("employeeNotFound")}</p>`}
         </div>
       </div>

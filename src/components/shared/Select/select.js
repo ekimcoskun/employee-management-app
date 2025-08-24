@@ -6,6 +6,7 @@ export class Select extends LitElement {
     value: { type: String },
     options: { type: Array },
     disabled: { type: Boolean },
+    error: { type: String },
   };
 
   static styles = css`
@@ -28,6 +29,10 @@ export class Select extends LitElement {
     select:disabled {
       background: #eee;
     }
+    .error {
+      color: red;
+      font-size: 0.8rem;
+    }
   `;
 
   constructor() {
@@ -36,6 +41,7 @@ export class Select extends LitElement {
     this.value = "";
     this.options = [];
     this.disabled = false;
+    this.error = "";
   }
 
   handleChange(e) {
@@ -56,6 +62,7 @@ export class Select extends LitElement {
         <select .value=${this.value} ?disabled=${this.disabled} @change=${this.handleChange}>
           ${this.options.map((opt) => html`<option value=${opt.value}>${opt.label}</option>`)}
         </select>
+        ${this.error ? html`<span class="error">${this.error}</span>` : ""}
       </div>
     `;
   }

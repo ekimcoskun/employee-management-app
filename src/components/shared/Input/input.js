@@ -5,12 +5,14 @@ export class AppInput extends LitElement {
     label: { type: String },
     value: { type: String },
     type: { type: String },
+    error: { type: String },
   };
 
   constructor() {
     super();
     this.label = "";
     this.value = "";
+    this.error = "";
     this.type = "text";
   }
 
@@ -33,6 +35,10 @@ export class AppInput extends LitElement {
       border-radius: 6px;
       font-size: 1rem;
     }
+    .error {
+      color: red;
+      font-size: 0.8rem;
+    }
   `;
 
   handleInput(e) {
@@ -51,6 +57,7 @@ export class AppInput extends LitElement {
       <div class="input-group">
         <label>${this.label}</label>
         <input type=${this.type} .value=${this.value} @input=${this.handleInput} />
+        ${this.error ? html`<span class="error">${this.error}</span>` : ""}
       </div>
     `;
   }

@@ -21,9 +21,7 @@ const languageSlice = createSlice({
 });
 
 export const msg = (key) => {
-  console.log(key);
   const { locale } = store.getState().language;
-  console.log(key, ",", locale[key]);
   return locale[key] || key;
 };
 

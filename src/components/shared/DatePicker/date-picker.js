@@ -7,6 +7,7 @@ export class Datepicker extends LitElement {
     value: { type: String },
     name: { type: String },
     disabled: { type: Boolean },
+    error: { type: String },
   };
 
   static styles = css`
@@ -59,6 +60,10 @@ export class Datepicker extends LitElement {
       pointer-events: none;
       user-select: none;
     }
+    .error {
+      color: red;
+      font-size: 0.8rem;
+    }
   `;
 
   constructor() {
@@ -67,6 +72,7 @@ export class Datepicker extends LitElement {
     this.value = "";
     this.name = "";
     this.disabled = false;
+    this.error = "";
   }
 
   handleChange(e) {
@@ -107,6 +113,7 @@ export class Datepicker extends LitElement {
             <img src=${datePickerIcon} alt="Takvim" />
           </span>
         </div>
+        ${this.error ? html`<span class="error">${this.error}</span>` : ""}
       </div>
     `;
   }

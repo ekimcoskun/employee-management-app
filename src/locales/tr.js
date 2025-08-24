@@ -26,4 +26,5 @@ export default {
   noEmployeesSelected: "Hiç çalışan seçilmedi.",
   notFoundPage: "404 - Sayfa bulunamadı.",
   backToHome: "Ana Sayfaya Dön",
+  isRequired: "zorunludur.",
 };

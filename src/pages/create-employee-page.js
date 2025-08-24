@@ -26,13 +26,21 @@ export class CreateEmployeePage extends LitElement {
       background-color: #fff;
     }
   `;
+
+  handleCancel() {
+    window.location.href = "/employees";
+  }
+
+  handleSave(e) {
+    console.log("fasdfs", e.detail);
+  }
+
   render() {
-    console.log(msg("addEmployee"));
     return html`
       <div class="form-wrapper">
         <h2>${msg("addEmployee")}</h2>
         <div class="form-container">
-          <employee-form></employee-form>
+          <employee-form @cancel=${this.handleCancel} @save=${this.handleSave}></employee-form>
         </div>
       </div>
     `;

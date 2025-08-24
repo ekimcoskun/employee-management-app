@@ -26,4 +26,5 @@ export default {
   noEmployeesSelected: "No employees selected.",
   notFoundPage: "404 - Page not found.",
   backToHome: "Go back to Home",
+  isRequired: "is required",
 };
