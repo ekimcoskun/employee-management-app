@@ -1,7 +1,8 @@
 import { LitElement, html, css } from "lit";
-import { store } from "../store/store.js";
 import { getEmployeeById } from "../store/slices/employeeSlice.js";
 import "../components/forms/employee-form.js";
+import { store } from "../store/store.js";
+import { msg } from "../store/slices/languageSlice.js";
 
 export class EditEmployeePage extends LitElement {
   static styles = css`
@@ -28,6 +29,11 @@ export class EditEmployeePage extends LitElement {
     this.employeeId = "";
     this.employee = null;
     this.unsubscribe = null;
+
+    store.subscribe(() => {
+      this.locale = store.getState().language.locale;
+      this.requestUpdate();
+    });
   }
 
   connectedCallback() {
@@ -66,11 +72,11 @@ export class EditEmployeePage extends LitElement {
   render() {
     return html`
       <div class="page-wrapper">
-        <h2>Edit Employee</h2>
+        <h2>${msg("editEmployee")}</h2>
         <div class="form-container">
           ${this.employee
             ? html`<employee-form .employee=${this.employee}></employee-form>`
-            : html`<p>Çalışan bulunamadı.</p>`}
+            : html`<p>${msg("employeeNotFound")}</p>`}
         </div>
       </div>
     `;

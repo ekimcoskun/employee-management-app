@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import en from "../../locales/en.js";
+import { store } from "../store.js";
 
 const initialState = {
-  locale: "en",
+  locale: en,
+  language: "en",
 };
 
 const languageSlice = createSlice({
@@ -11,8 +14,18 @@ const languageSlice = createSlice({
     setLocale: (state, action) => {
       state.locale = action.payload;
     },
+    setLanguage: (state, action) => {
+      state.language = action.payload;
+    },
   },
 });
 
-export const { setLocale } = languageSlice.actions;
+export const msg = (key) => {
+  console.log(key);
+  const { locale } = store.getState().language;
+  console.log(key, ",", locale[key]);
+  return locale[key] || key;
+};
+
+export const { setLocale, setLanguage, t } = languageSlice.actions;
 export const languageReducer = languageSlice.reducer;

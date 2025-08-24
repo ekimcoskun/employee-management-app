@@ -1,4 +1,5 @@
 export default {
+  welcome: "Ana Sayfaya Hoşgeldiniz",
   firstName: "Ad",
   lastName: "Soyad",
   dateOfEmployment: "İşe Başlama Tarihi",
@@ -11,6 +12,8 @@ export default {
   editEmployee: "Çalışanı Düzenle",
   save: "Kaydet",
   cancel: "İptal",
+  edit: "Düzenle",
+  delete: "Sil",
   employees: "Çalışanlar",
   addNew: "Yeni Ekle",
   areYouSure: "Emin misiniz?",
@@ -18,4 +21,9 @@ export default {
   employeeList: "Çalışan Listesi",
   areYouSureToDelete: "Bu çalışanı silmek istediğinizden emin misiniz?",
   actions: "Eylemler",
+  employeeNotFound: "Çalışan bulunamadı.",
+  deleteDescription: "çalışan silinecek.",
+  noEmployeesSelected: "Hiç çalışan seçilmedi.",
+  notFoundPage: "404 - Sayfa bulunamadı.",
+  backToHome: "Ana Sayfaya Dön",
 };

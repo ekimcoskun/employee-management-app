@@ -1,4 +1,5 @@
 export default {
+  welcome: "Welcome to Home Page",
   firstName: "First Name",
   lastName: "Last Name",
   dateOfEmployment: "Date of Employment",
@@ -11,6 +12,8 @@ export default {
   editEmployee: "Edit Employee",
   save: "Save",
   cancel: "Cancel",
+  edit: "Edit",
+  delete: "Delete",
   employees: "Employees",
   addNew: "Add New",
   areYouSure: "Are you sure?",
@@ -18,4 +21,9 @@ export default {
   employeeList: "Employee List",
   areYouSureToDelete: "Are you sure you want to delete this employee?",
   actions: "Actions",
+  employeeNotFound: "Employee not found.",
+  deleteDescription: "employees will be deleted.",
+  noEmployeesSelected: "No employees selected.",
+  notFoundPage: "404 - Page not found.",
+  backToHome: "Go back to Home",
 };

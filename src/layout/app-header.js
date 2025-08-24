@@ -3,9 +3,11 @@ import plusIcon from "../assets/icons/plus.svg";
 import employeeIcon from "../assets/icons/employee.svg";
 import turkeyFlag from "../assets/images/turkey-flag.png";
 import ukFlag from "../assets/images/united-kingdom-flag.png";
+import tr from "../locales/tr.js";
+import en from "../locales/en.js";
 import { store } from "../store/store.js";
-import { setLocale } from "../store/slices/languageSlice.js";
-import { t } from "../localize.js";
+import { setLanguage, setLocale } from "../store/slices/languageSlice.js";
+import { msg } from "../store/slices/languageSlice.js";
 
 export class AppHeader extends LitElement {
   static styles = css`
@@ -55,10 +57,16 @@ export class AppHeader extends LitElement {
   constructor() {
     super();
     this.locale = store.getState().language.locale;
+    this.language = store.getState().language.language;
     this.unsubscribe = store.subscribe(() => {
       const newLocale = store.getState().language.locale;
       if (newLocale !== this.locale) {
         this.locale = newLocale;
+        this.requestUpdate();
+      }
+      const newLanguage = store.getState().language.language;
+      if (newLanguage !== this.language) {
+        this.language = newLanguage;
         this.requestUpdate();
       }
     });
@@ -70,11 +78,12 @@ export class AppHeader extends LitElement {
   }
 
   changeLanguage(lang) {
-    store.dispatch(setLocale(lang));
+    store.dispatch(setLocale(lang === "tr" ? tr : en));
+    store.dispatch(setLanguage(lang));
   }
 
   render() {
-    const flag = this.locale === "tr" ? turkeyFlag : ukFlag;
+    const flag = this.language === "tr" ? turkeyFlag : ukFlag;
     return html`
       <header>
         <div class="home">
@@ -86,19 +95,19 @@ export class AppHeader extends LitElement {
         <div class="navigation">
           <a href="/employees">
             <img src=${employeeIcon} alt="Employees" />
-            ${t("employees")}
+            ${msg("employees")}
           </a>
           <a href="/employees/new">
             <img src=${plusIcon} alt="Add New" />
-            ${t("addNew")}
+            ${msg("addNew")}
           </a>
         </div>
         <div class="language">
           <img
             class="flag-icon"
             src=${flag}
-            alt=${""}
-            @click=${() => this.changeLanguage(this.locale === "tr" ? "en" : "tr")}
+            alt=${"flag"}
+            @click=${() => this.changeLanguage(this.language === "tr" ? "en" : "tr")}
           />
         </div>
       </header>

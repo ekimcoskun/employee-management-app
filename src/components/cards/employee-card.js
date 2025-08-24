@@ -1,5 +1,7 @@
 import { LitElement, html, css } from "lit";
 import "../shared/Button/button.js";
+import { store } from "../../store/store.js";
+import { msg } from "../../store/slices/languageSlice.js";
 
 class EmployeeCard extends LitElement {
   static properties = {
@@ -66,6 +68,10 @@ class EmployeeCard extends LitElement {
     this.secondaryText = "Secondary";
     this.onPrimaryButtonClick = undefined;
     this.onSecondaryButtonClick = undefined;
+    store.subscribe(() => {
+      this.locale = store.getState().language.locale;
+      this.requestUpdate();
+    });
   }
 
   #handlePrimaryClick(e) {
@@ -87,36 +93,36 @@ class EmployeeCard extends LitElement {
       <div class="card">
         <div class="content">
           <div class="field">
-            <span class="label">First Name:</span>
+            <span class="label">${msg("firstName")}:</span>
             <span class="value">${this.employee.firstName}</span>
           </div>
           <div class="field">
-            <span class="label">Last Name:</span>
+            <span class="label">${msg("lastName")}:</span>
             <span class="value">${this.employee.lastName}</span>
           </div>
           <div class="field">
-            <span class="label">Email:</span>
+            <span class="label">${msg("email")}:</span>
             <span class="value">${this.employee.email}</span>
           </div>
           <div class="field">
-            <span class="label">Phone Number:</span>
+            <span class="label">${msg("phoneNumber")}:</span>
             <span class="value">${this.employee.phoneNumber}</span>
           </div>
           <div class="field">
-            <span class="label">Department:</span>
+            <span class="label">${msg("department")}:</span>
             <span class="value">${this.employee.department}</span>
           </div>
           <div class="field">
-            <span class="label">Position:</span>
+            <span class="label">${msg("position")}:</span>
             <span class="value">${this.employee.position}</span>
           </div>
         </div>
         <div class="actions">
           <app-button type="button" variant="third" @click=${this.#handlePrimaryClick}
-            >Edit</app-button
+            >${msg("edit")}</app-button
           >
           <app-button type="button" variant="primary" @click=${this.#handleSecondaryClick}
-            >Delete</app-button
+            >${msg("delete")}</app-button
           >
         </div>
       </div>

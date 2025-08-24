@@ -7,6 +7,7 @@ import { store } from "../store/store.js";
 import { getEmployees, deleteEmployee } from "../store/slices/employeeSlice.js";
 import listIcon from "../assets/icons/list.svg";
 import cardsIcon from "../assets/icons/cards.svg";
+import { msg } from "../store/slices/languageSlice.js";
 
 export class EmployeesPage extends LitElement {
   static styles = css`
@@ -66,6 +67,11 @@ export class EmployeesPage extends LitElement {
     this.totalCount = 1;
     this.selectedRows = [];
     this.showCancelModal = false;
+
+    store.subscribe(() => {
+      this.locale = store.getState().language.locale;
+      this.requestUpdate();
+    });
   }
 
   connectedCallback() {
@@ -121,28 +127,28 @@ export class EmployeesPage extends LitElement {
 
   createDescriptionTextById() {
     if (this.selectedRows.length > 1) {
-      return `${this.selectedRows.length} employees will be deleted.`;
+      return `${this.selectedRows.length} ${msg("deleteDescription")}`;
     }
     const employee = this.employees.find((emp) => emp.id === this.selectedRows[0]);
     return employee
-      ? `Selected Employee record of ${employee.firstName} ${employee.lastName} will be deleted.`
-      : "No employees selected for deletion.";
+      ? `${employee.firstName} ${employee.lastName} ${msg("deleteDescription")}`
+      : msg("noEmployeesSelected");
   }
 
   render() {
     return html`
       <app-modal
         .showModal=${this.showCancelModal}
-        title="Are you sure?"
+        title=${msg("areYouSure")}
         description=${this.createDescriptionTextById(this.selectedRows)}
-        ok-button-title="Proceed"
-        cancel-button-title="Cancel"
+        ok-button-title=${msg("proceed")}
+        cancel-button-title=${msg("cancel")}
         .onOk=${() => console.log("OK")}
         .onCancel=${() => (this.showCancelModal = false)}
       ></app-modal>
       <div class="page-wrapper">
         <div class="header">
-          <h2>Employee List</h2>
+          <h2>${msg("employeeList")}</h2>
           <div class="list-type-icons">
             <img
               src=${listIcon}

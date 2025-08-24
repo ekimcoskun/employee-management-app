@@ -1,7 +1,8 @@
 import { LitElement, html, css } from "lit";
 import deleteIcon from "../../../assets/icons/delete.svg";
 import editIcon from "../../../assets/icons/edit.svg";
-
+import { store } from "../../../store/store.js";
+import { msg } from "../../../store/slices/languageSlice.js";
 export class DataTable extends LitElement {
   static properties = {
     data: { type: Array },
@@ -87,6 +88,11 @@ export class DataTable extends LitElement {
     this.onEditRow = undefined;
     this.onDeleteRow = undefined;
     this.onSelectedRowsChange = undefined;
+
+    store.subscribe(() => {
+      this.locale = store.getState().language.locale;
+      this.requestUpdate();
+    });
   }
 
   get totalPages() {
@@ -156,15 +162,15 @@ export class DataTable extends LitElement {
                 ?disabled=${this.loading}
               />
             </th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Date of Employment</th>
-            <th>Date of Birth</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Department</th>
-            <th>Position</th>
-            <th>Actions</th>
+            <th>${msg("firstName")}</th>
+            <th>${msg("lastName")}</th>
+            <th>${msg("dateOfEmployment")}</th>
+            <th>${msg("dateOfBirth")}</th>
+            <th>${msg("phoneNumber")}</th>
+            <th>${msg("email")}</th>
+            <th>${msg("department")}</th>
+            <th>${msg("position")}</th>
+            <th>${msg("actions")}</th>
           </tr>
         </thead>
         <tbody>
