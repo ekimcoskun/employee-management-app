@@ -3,6 +3,7 @@ import { getEmployeeById } from "../store/slices/employeeSlice.js";
 import "../components/forms/employee-form.js";
 import { store } from "../store/store.js";
 import { msg } from "../store/slices/languageSlice.js";
+import { updateEmployee } from "../store/slices/employeeSlice.js";
 
 export class EditEmployeePage extends LitElement {
   static styles = css`
@@ -70,6 +71,11 @@ export class EditEmployeePage extends LitElement {
   }
 
   handleCancel() {
+    window.location.href = "/employees";
+  }
+
+  handleSave(e) {
+    store.dispatch(updateEmployee(e.detail));
     window.location.href = "/employees";
   }
 

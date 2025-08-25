@@ -3,6 +3,7 @@ import "../components/forms/employee-form.js";
 import { store } from "../store/store.js";
 import { msg } from "../store/slices/languageSlice.js";
 import { validateEmployee } from "../utils/validateEmployee.js";
+import { addEmployee } from "../store/slices/employeeSlice.js";
 
 export class CreateEmployeePage extends LitElement {
   constructor() {

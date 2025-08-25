@@ -110,7 +110,7 @@ export class EmployeesPage extends LitElement {
 
   approveDeleteEmployee(e) {
     store.dispatch(deleteEmployee(e.detail.id));
-    store.dispatch(getEmployees({ page: this.page, pageSize: this.pageSize }));
+    window.location.href = "/employees";
   }
 
   handleSelectedRowsChange(e) {
@@ -168,7 +168,12 @@ export class EmployeesPage extends LitElement {
           ? html`
               <div class="employee-cards">
                 ${this.employees.map(
-                  (employee) => html`<employee-card .employee=${employee}></employee-card>`
+                  (employee) =>
+                    html`<employee-card
+                      .onPrimaryButtonClick=${() => this.handleEditRow(employee)}
+                      .onSecondaryButtonClick=${() => this.handleDeleteRow(employee)}
+                      .employee=${employee}
+                    ></employee-card>`
                 )}
               </div>
             `

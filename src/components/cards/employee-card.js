@@ -6,6 +6,7 @@ import { msg } from "../../store/slices/languageSlice.js";
 class EmployeeCard extends LitElement {
   static properties = {
     employee: {
+      id: { type: Number },
       firstName: { type: String },
       lastName: { type: String },
       employmentDate: { type: String },
@@ -74,14 +75,14 @@ class EmployeeCard extends LitElement {
     });
   }
 
-  #handlePrimaryClick(e) {
+  handlePrimaryClick(e) {
     if (typeof this.onPrimaryButtonClick === "function") {
       this.onPrimaryButtonClick(e);
     }
     this.dispatchEvent(new CustomEvent("primary-click", { bubbles: true, composed: true }));
   }
 
-  #handleSecondaryClick(e) {
+  handleSecondaryClick(e) {
     if (typeof this.onSecondaryButtonClick === "function") {
       this.onSecondaryButtonClick(e);
     }
@@ -118,10 +119,16 @@ class EmployeeCard extends LitElement {
           </div>
         </div>
         <div class="actions">
-          <app-button type="button" variant="third" @click=${this.#handlePrimaryClick}
+          <app-button
+            type="button"
+            variant="third"
+            @click=${() => this.handlePrimaryClick(this.employee)}
             >${msg("edit")}</app-button
           >
-          <app-button type="button" variant="primary" @click=${this.#handleSecondaryClick}
+          <app-button
+            type="button"
+            variant="primary"
+            @click=${() => this.handleSecondaryClick(this.employee)}
             >${msg("delete")}</app-button
           >
         </div>
