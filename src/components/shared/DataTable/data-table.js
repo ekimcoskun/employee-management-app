@@ -99,49 +99,37 @@ export class DataTable extends LitElement {
     return Math.max(1, Math.ceil(this.totalCount / this.rowsPerPage));
   }
 
-  handleDelete(id) {
-    this.dispatchEvent(new CustomEvent("row-deleted", { detail: id }));
+  handleDelete(row) {
+    this.dispatchEvent(new CustomEvent("row-deleted", { detail: row }));
   }
 
-  handleEdit(id) {
-    this.dispatchEvent(new CustomEvent("row-edited", { detail: id }));
+  handleEdit(row) {
+    this.dispatchEvent(new CustomEvent("row-edited", { detail: row }));
   }
 
-  updateSelectedRows(newSelectedRows) {
-    this.selectedRows = [...newSelectedRows];
+  updateSelectedRows(selectedRows) {
     if (typeof this.onSelectedRowsChange === "function") {
-      this.onSelectedRowsChange(this.selectedRows);
+      this.onSelectedRowsChange(selectedRows);
     }
-    this.dispatchEvent(new CustomEvent("selected-rows-change", { detail: this.selectedRows }));
+    this.dispatchEvent(new CustomEvent("selected-rows-change", { detail: selectedRows }));
   }
 
-  toggleRow(idx) {
-    console.log("data", this.data);
-
-    const realIdx = (this.page - 1) * this.rowsPerPage + idx;
-    if (this.selectedRows.includes(realIdx)) {
-      this.selectedRows = this.selectedRows.filter((i) => i !== realIdx);
-      console.log("selectedRows", this.selectedRows);
-      this.updateSelectedRows(this.selectedRows);
+  toggleRow(row) {
+    const isExisting = this.selectedRows.some((r) => r.id === row.id);
+    if (isExisting) {
+      this.selectedRows = this.selectedRows.filter((r) => r.id !== row.id);
     } else {
-      this.selectedRows = [...this.selectedRows, realIdx];
-      this.updateSelectedRows(this.selectedRows);
+      this.selectedRows = [...this.selectedRows, row];
     }
+    this.updateSelectedRows(this.selectedRows);
   }
 
   toggleAllRows(e) {
     if (e.target.checked) {
-      const start = (this.page - 1) * this.rowsPerPage;
-      this.selectedRows = [
-        ...this.selectedRows,
-        ...Array.from({ length: this.data.length }, (_, i) => start + i),
-      ];
+      this.selectedRows = this.data;
       this.updateSelectedRows(this.selectedRows);
     } else {
-      const start = (this.page - 1) * this.rowsPerPage;
-      this.selectedRows = this.selectedRows.filter(
-        (i) => i < start || i >= start + this.rowsPerPage
-      );
+      this.selectedRows = [];
       this.updateSelectedRows(this.selectedRows);
     }
   }
@@ -156,9 +144,7 @@ export class DataTable extends LitElement {
                 type="checkbox"
                 @change=${this.toggleAllRows}
                 .checked=${this.data.length > 0 &&
-                this.data.every((_, i) =>
-                  this.selectedRows.includes((this.page - 1) * this.rowsPerPage + i)
-                )}
+                this.data.every((row) => this.selectedRows.some((r) => r.id === row.id))}
                 ?disabled=${this.loading}
               />
             </th>
@@ -174,42 +160,36 @@ export class DataTable extends LitElement {
           </tr>
         </thead>
         <tbody>
-          ${this.loading
-            ? html`<tr>
-                <td colspan="10" class="loading-indicator">Yükleniyor...</td>
-              </tr>`
-            : this.data.map(
-                (row, idx) => html`
-                  <tr>
-                    <td>
-                      <input
-                        type="checkbox"
-                        .checked=${this.selectedRows.includes(
-                          (this.page - 1) * this.rowsPerPage + idx
-                        )}
-                        @change=${() => this.toggleRow(idx)}
-                        ?disabled=${this.loading}
-                      />
-                    </td>
-                    <td>${row.firstName}</td>
-                    <td>${row.lastName}</td>
-                    <td>${row.employmentDate}</td>
-                    <td>${row.dateOfBirth}</td>
-                    <td>${row.phoneNumber}</td>
-                    <td>${row.email}</td>
-                    <td>${row.department}</td>
-                    <td>${row.position}</td>
-                    <td class="actions">
-                      <button class="action-btn" @click=${() => this.handleEdit(row.id)}>
-                        <img src=${editIcon} width="16" height="16" alt="Edit" />
-                      </button>
-                      <button class="action-btn" @click=${() => this.handleDelete(row.id)}>
-                        <img src=${deleteIcon} width="16" height="16" alt="Delete" />
-                      </button>
-                    </td>
-                  </tr>
-                `
-              )}
+          ${this.data.map(
+            (row, idx) => html`
+              <tr>
+                <td>
+                  <input
+                    type="checkbox"
+                    .checked=${this.selectedRows.some((r) => r.id === row.id)}
+                    @change=${() => this.toggleRow(row)}
+                    ?disabled=${this.loading}
+                  />
+                </td>
+                <td>${row.firstName}</td>
+                <td>${row.lastName}</td>
+                <td>${row.employmentDate}</td>
+                <td>${row.dateOfBirth}</td>
+                <td>${row.phoneNumber}</td>
+                <td>${row.email}</td>
+                <td>${row.department}</td>
+                <td>${row.position}</td>
+                <td class="actions">
+                  <button class="action-btn" @click=${() => this.handleEdit(row)}>
+                    <img src=${editIcon} width="16" height="16" alt="Edit" />
+                  </button>
+                  <button class="action-btn" @click=${() => this.handleDelete(row)}>
+                    <img src=${deleteIcon} width="16" height="16" alt="Delete" />
+                  </button>
+                </td>
+              </tr>
+            `
+          )}
         </tbody>
       </table>
     `;

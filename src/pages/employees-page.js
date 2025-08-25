@@ -97,15 +97,15 @@ export class EmployeesPage extends LitElement {
     this.selectedRows = [];
   }
 
-  handleDeleteRow(id) {
+  handleDeleteRow(row) {
     if (this.selectedRows.length === 0) {
-      this.selectedRows = [id - 1];
+      this.selectedRows = [row];
     }
     this.showCancelModal = true;
   }
 
-  handleEditRow(e) {
-    console.log("Edit row clicked", e.detail);
+  handleEditRow(row) {
+    window.location.href = `/employees/edit/${row.id}`;
   }
 
   approveDeleteEmployee(e) {
@@ -114,7 +114,7 @@ export class EmployeesPage extends LitElement {
   }
 
   handleSelectedRowsChange(e) {
-    this.selectedRows = e.detail;
+    this.selectedRows = e;
   }
 
   handleListTypeChange(type) {
@@ -125,11 +125,12 @@ export class EmployeesPage extends LitElement {
     store.dispatch(getEmployees({ page: this.page, pageSize: this.pageSize }));
   }
 
-  createDescriptionTextById() {
-    if (this.selectedRows.length > 1) {
-      return `${this.selectedRows.length} ${msg("deleteDescription")}`;
+  createDescriptionTextById(selectedRows) {
+    console.log("Selected rows:", selectedRows);
+    if (selectedRows.length > 1) {
+      return `${selectedRows.length} ${msg("deleteDescription")}`;
     }
-    const employee = this.employees.find((emp) => emp.id === this.selectedRows[0]);
+    const employee = this.employees.find((emp) => emp.id === selectedRows[0]?.id);
     return employee
       ? `${employee.firstName} ${employee.lastName} ${msg("deleteDescription")}`
       : msg("noEmployeesSelected");
