@@ -27,4 +27,6 @@ export default {
   notFoundPage: "404 - Sayfa bulunamadı.",
   backToHome: "Ana Sayfaya Dön",
   isRequired: "zorunludur.",
+  invalidEmail: "Geçersiz e-posta adresi",
+  error: "Hata",
 };

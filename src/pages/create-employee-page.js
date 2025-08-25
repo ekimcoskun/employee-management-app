@@ -2,10 +2,13 @@ import { LitElement, html, css } from "lit";
 import "../components/forms/employee-form.js";
 import { store } from "../store/store.js";
 import { msg } from "../store/slices/languageSlice.js";
+import { validateEmployee } from "../utils/validateEmployee.js";
 
 export class CreateEmployeePage extends LitElement {
   constructor() {
     super();
+    this.showErrorModal = true;
+
     this.locale = store.getState().language.locale;
 
     store.subscribe(() => {
@@ -32,7 +35,13 @@ export class CreateEmployeePage extends LitElement {
   }
 
   handleSave(e) {
-    console.log("fasdfs", e.detail);
+    const isValid = validateEmployee(e.detail);
+    if (isValid) {
+      store.dispatch(addEmployee(employeeData));
+      window.location.href = "/employees";
+    } else {
+      alert(msg("invalidEmail"));
+    }
   }
 
   render() {

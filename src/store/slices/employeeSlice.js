@@ -29,14 +29,22 @@ const employeeSlice = createSlice({
       state.paginatedData = state.employees.slice(start, end);
     },
     addEmployee(state, action) {
-      state.employees.push(action.payload);
+      const biggestEmployeeId = state.employees.reduce((max, emp) => Math.max(max, emp.id), 0);
+      const newEmployee = {
+        id: biggestEmployeeId + 1,
+        ...action.payload,
+      };
+      state.employees.push(newEmployee);
+      state.totalCount = state.employees.length;
     },
     updateEmployee(state, action) {
       const idx = state.employees.findIndex((e) => e.id === action.payload.id);
       if (idx > -1) state.employees[idx] = action.payload;
     },
     deleteEmployee(state, action) {
-      state.employees = state.employees.filter((e) => e.id !== action.payload);
+      const deleteIds = action.payload;
+      state.employees = state.employees.filter((e) => !deleteIds.includes(e.id));
+      state.totalCount = state.employees.length;
     },
     getEmployeeById(state, action) {
       const rawId = action.payload.id;
