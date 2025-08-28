@@ -29,3 +29,12 @@ npm run dev
 ```
 
 This will start the application in development mode. By default, it runs on [http://localhost:5173](http://localhost:5173) (or the port specified in your configuration).
+
+### 4. Test
+
+Test with coverage output.
+
+```bash
+npm run coverage
+```
+
